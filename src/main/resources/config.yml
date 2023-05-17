@@ -1,0 +1,12 @@
+database:
+  mongodb:
+    uri: 'mongodb://0.0.0.0:27017'
+
+motd:
+  - '&f&m--------------------------------'
+  - '&fWelcome, &c%player%'
+  - '&aWebsite&f: https://hcfrevival.net/'
+  - '&9Discord&f: https://discord.gg/hzk6y66'
+  - '&cReddit&f: https://reddit.com/r/hcfrevival'
+  - '&6Shop&f: https://shop.hcfrevival.net/'
+  - '&f&m--------------------------------'
