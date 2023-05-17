@@ -37,5 +37,7 @@ public final class LobbyConfig {
 
         motd = Lists.newArrayList();
         motdEntries.forEach(entry -> motd.add(ChatColor.translateAlternateColorCodes('&', entry)));
+
+        spawnLocation = Configs.parsePlayerLocation(conf, "spawn").getBukkitLocation();
     }
 }

@@ -10,3 +10,11 @@ motd:
   - '&cReddit&f: https://reddit.com/r/hcfrevival'
   - '&6Shop&f: https://shop.hcfrevival.net/'
   - '&f&m--------------------------------'
+
+spawn:
+  x: 0.0
+  y: 64.0
+  z: 0.0
+  yaw: 0.0
+  pitch: 0.0
+  world: 'world'
