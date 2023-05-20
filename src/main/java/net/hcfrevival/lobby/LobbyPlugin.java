@@ -15,6 +15,7 @@ import lombok.Getter;
 import net.hcfrevival.lobby.command.SpawnCommand;
 import net.hcfrevival.lobby.item.LeaveQueueItem;
 import net.hcfrevival.lobby.item.ServerSelectorItem;
+import net.hcfrevival.lobby.listener.BlockListener;
 import net.hcfrevival.lobby.listener.PlayerListener;
 import net.hcfrevival.lobby.queue.QueueManager;
 
@@ -74,6 +75,7 @@ public final class LobbyPlugin extends AresPlugin {
 
         // listeners
         registerListener(new PlayerListener(this));
+        registerListener(new BlockListener());
 
         // lobby internals
         queueManager = new QueueManager(this);
