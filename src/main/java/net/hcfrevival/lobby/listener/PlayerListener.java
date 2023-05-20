@@ -55,6 +55,7 @@ public record PlayerListener(@Getter LobbyPlugin plugin) implements Listener {
         player.getInventory().setArmorContents(null);
         player.setWalkSpeed(0.4f);
         player.setGameMode(GameMode.SURVIVAL);
+        player.teleport(plugin.getConfiguration().getSpawnLocation());
 
         cis.getItem(ServerSelectorItem.class).ifPresent(item -> player.getInventory().setItem(4, item.getItem()));
 
