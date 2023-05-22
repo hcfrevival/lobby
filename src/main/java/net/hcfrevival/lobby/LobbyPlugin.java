@@ -12,6 +12,7 @@ import gg.hcfactions.libs.bukkit.services.impl.ranks.RankService;
 import gg.hcfactions.libs.bukkit.services.impl.sync.EServerType;
 import gg.hcfactions.libs.bukkit.services.impl.sync.SyncService;
 import lombok.Getter;
+import net.hcfrevival.lobby.command.DebugCommand;
 import net.hcfrevival.lobby.command.SpawnCommand;
 import net.hcfrevival.lobby.item.LeaveQueueItem;
 import net.hcfrevival.lobby.item.ServerSelectorItem;
@@ -42,6 +43,7 @@ public final class LobbyPlugin extends AresPlugin {
         cmdMng.enableUnstableAPI("help");
         registerCommandManager(cmdMng);
         registerCommand(new SpawnCommand(this));
+        registerCommand(new DebugCommand(this));
 
         // protocollib
         registerProtocolLibrary(ProtocolLibrary.getProtocolManager());
