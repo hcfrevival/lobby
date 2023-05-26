@@ -16,6 +16,7 @@ public final class LobbyConfig {
     @Getter public final LobbyPlugin plugin;
 
     @Getter @Setter public String mongoUri;
+    @Getter @Setter public String mongoDatabaseName;
     @Getter @Setter public List<String> motd;
     @Getter @Setter public Location spawnLocation;
 
@@ -34,6 +35,7 @@ public final class LobbyConfig {
         final List<String> motdEntries = conf.getStringList("motd");
 
         mongoUri = conf.getString("database.mongodb.uri");
+        mongoDatabaseName = conf.getString("database.mongodb.database");
 
         motd = Lists.newArrayList();
         motdEntries.forEach(entry -> motd.add(ChatColor.translateAlternateColorCodes('&', entry)));

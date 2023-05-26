@@ -7,6 +7,8 @@ import gg.hcfactions.libs.acf.PaperCommandManager;
 import gg.hcfactions.libs.base.connect.impl.mongo.Mongo;
 import gg.hcfactions.libs.bukkit.AresPlugin;
 import gg.hcfactions.libs.bukkit.services.impl.account.AccountService;
+import gg.hcfactions.libs.bukkit.services.impl.deathbans.DeathbanConfig;
+import gg.hcfactions.libs.bukkit.services.impl.deathbans.DeathbanService;
 import gg.hcfactions.libs.bukkit.services.impl.items.CustomItemService;
 import gg.hcfactions.libs.bukkit.services.impl.ranks.RankService;
 import gg.hcfactions.libs.bukkit.services.impl.sync.EServerType;
@@ -64,11 +66,25 @@ public final class LobbyPlugin extends AresPlugin {
         final CustomItemService cis = new CustomItemService(this);
 
         // services
-        registerService(new AccountService(this));
-        registerService(new SyncService(this));
+        registerService(new AccountService(this, configuration.getMongoDatabaseName()));
+        registerService(new SyncService(this, configuration.getMongoDatabaseName()));
         registerService(new CXService(this));
         registerService(new RankService(this));
         registerService(cis);
+
+        // TODO: Make configurable
+        registerService(new DeathbanService(this, new DeathbanConfig(
+                configuration.getMongoDatabaseName(),
+                true,
+                false,
+                0,
+                0,
+                0,
+                0,
+                30,
+                "https://shop.hcfrevival.net"
+        )));
+
         startServices();
 
         // custom items
