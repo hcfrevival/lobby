@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import gg.hcfactions.libs.bukkit.builder.impl.ItemBuilder;
 import gg.hcfactions.libs.bukkit.menu.impl.Clickable;
 import gg.hcfactions.libs.bukkit.menu.impl.GenericMenu;
+import gg.hcfactions.libs.bukkit.services.impl.sync.EServerStatus;
 import gg.hcfactions.libs.bukkit.services.impl.sync.EServerType;
 import gg.hcfactions.libs.bukkit.services.impl.sync.SyncService;
 import lombok.Getter;
@@ -58,7 +59,7 @@ public final class ServerSelectorMenu extends GenericMenu {
 
                 lore.add(ChatColor.RESET + " ");
                 lore.add(ChatColor.GOLD + "Status" + ChatColor.YELLOW + ": " + serverStatus);
-                lore.add(ChatColor.GOLD + "Online" + ChatColor.YELLOW + ": " + server.getOnlineUsernames().size());
+                lore.add(ChatColor.GOLD + "Online" + ChatColor.YELLOW + ": " + (server.getStatus().equals(EServerStatus.ONLINE) ? server.getOnlineUsernames().size() : 0));
 
                 if (queue != null) {
                     lore.add(ChatColor.GOLD + "Queue" + ChatColor.YELLOW + ": " + queue.getQueue().size());
