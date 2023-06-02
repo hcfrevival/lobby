@@ -10,6 +10,7 @@ import gg.hcfactions.libs.bukkit.services.impl.account.AccountService;
 import gg.hcfactions.libs.bukkit.services.impl.deathbans.DeathbanConfig;
 import gg.hcfactions.libs.bukkit.services.impl.deathbans.DeathbanService;
 import gg.hcfactions.libs.bukkit.services.impl.items.CustomItemService;
+import gg.hcfactions.libs.bukkit.services.impl.punishments.PunishmentService;
 import gg.hcfactions.libs.bukkit.services.impl.ranks.RankService;
 import gg.hcfactions.libs.bukkit.services.impl.sync.EServerType;
 import gg.hcfactions.libs.bukkit.services.impl.sync.SyncService;
@@ -66,10 +67,11 @@ public final class LobbyPlugin extends AresPlugin {
         final CustomItemService cis = new CustomItemService(this);
 
         // services
-        registerService(new AccountService(this, configuration.getMongoDatabaseName()));
-        registerService(new SyncService(this, configuration.getMongoDatabaseName()));
         registerService(new CXService(this));
         registerService(new RankService(this));
+        registerService(new AccountService(this, configuration.getMongoDatabaseName()));
+        registerService(new SyncService(this, configuration.getMongoDatabaseName()));
+        registerService(new PunishmentService(this, configuration.getMongoDatabaseName()));
         registerService(cis);
 
         // TODO: Make configurable
