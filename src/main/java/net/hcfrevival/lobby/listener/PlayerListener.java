@@ -65,8 +65,13 @@ public record PlayerListener(@Getter LobbyPlugin plugin) implements Listener {
 
         if (cxService != null && rankService != null) {
             rank = rankService.getHighestRank(player);
-            if (rank != null && !cxService.getVanishManager().isVanished(player)) {
-                Bukkit.broadcastMessage(rankService.getFormattedName(player) + ChatColor.YELLOW + " has joined the lobby");
+
+            if (rank != null) {
+                player.setPlayerListName(rankService.getFormattedName(player));
+
+                if (!cxService.getVanishManager().isVanished(player)) {
+                    Bukkit.broadcastMessage(rankService.getFormattedName(player) + ChatColor.YELLOW + " has joined the lobby");
+                }
             }
         }
 
@@ -135,9 +140,16 @@ public record PlayerListener(@Getter LobbyPlugin plugin) implements Listener {
 
     @EventHandler (priority = EventPriority.HIGHEST)
     public void onEntityDamage(EntityDamageEvent event) {
-        if (event.getEntity() instanceof Player) {
-            event.setCancelled(true);
+        if (!(event.getEntity() instanceof final Player player)) {
+            return;
         }
+
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {
+            player.teleport(plugin.getConfiguration().getSpawnLocation());
+            player.setFallDistance(0);
+        }
+
+        event.setCancelled(true);
     }
 
     @EventHandler
