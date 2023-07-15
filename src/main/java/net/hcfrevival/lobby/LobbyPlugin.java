@@ -48,6 +48,7 @@ public final class LobbyPlugin extends AresPlugin {
         redis.openConnection();
 
         registerConnectable(mdb);
+        registerConnectable(redis);
 
         // commands
         final PaperCommandManager cmdMng = new PaperCommandManager(this);
