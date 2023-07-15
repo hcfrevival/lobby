@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import gg.hcfactions.cx.CXService;
 import gg.hcfactions.libs.acf.PaperCommandManager;
 import gg.hcfactions.libs.base.connect.impl.mongo.Mongo;
+import gg.hcfactions.libs.base.connect.impl.redis.Redis;
 import gg.hcfactions.libs.bukkit.AresPlugin;
 import gg.hcfactions.libs.bukkit.services.impl.account.AccountService;
 import gg.hcfactions.libs.bukkit.services.impl.deathbans.DeathbanConfig;
@@ -12,6 +13,9 @@ import gg.hcfactions.libs.bukkit.services.impl.deathbans.DeathbanService;
 import gg.hcfactions.libs.bukkit.services.impl.items.CustomItemService;
 import gg.hcfactions.libs.bukkit.services.impl.punishments.PunishmentService;
 import gg.hcfactions.libs.bukkit.services.impl.ranks.RankService;
+import gg.hcfactions.libs.bukkit.services.impl.reports.ReportService;
+import gg.hcfactions.libs.bukkit.services.impl.reports.channel.payload.ReportPayload;
+import gg.hcfactions.libs.bukkit.services.impl.reports.channel.payload.ReportPayloadTypeAdapter;
 import gg.hcfactions.libs.bukkit.services.impl.sync.EServerType;
 import gg.hcfactions.libs.bukkit.services.impl.sync.SyncService;
 import lombok.Getter;
@@ -38,7 +42,11 @@ public final class LobbyPlugin extends AresPlugin {
 
         // db init
         final Mongo mdb = new Mongo(configuration.getMongoUri(), getAresLogger());
+        final Redis redis = new Redis(configuration.getRedisUri(), getAresLogger());
+
         mdb.openConnection();
+        redis.openConnection();
+
         registerConnectable(mdb);
 
         // commands
@@ -50,6 +58,9 @@ public final class LobbyPlugin extends AresPlugin {
 
         // protocollib
         registerProtocolLibrary(ProtocolLibrary.getProtocolManager());
+
+        // gson
+        registerGsonTypeAdapter(ReportPayload.class, new ReportPayloadTypeAdapter());
 
         // auto completions
         cmdMng.getCommandCompletions().registerAsyncCompletion("servers", ctx -> {
@@ -72,6 +83,7 @@ public final class LobbyPlugin extends AresPlugin {
         registerService(new AccountService(this, configuration.getMongoDatabaseName()));
         registerService(new SyncService(this, configuration.getMongoDatabaseName()));
         registerService(new PunishmentService(this, configuration.getMongoDatabaseName()));
+        registerService(new ReportService(this));
         registerService(cis);
 
         // TODO: Make configurable
@@ -88,6 +100,9 @@ public final class LobbyPlugin extends AresPlugin {
         )));
 
         startServices();
+
+        // init gson
+        registerGson();
 
         // custom items
         cis.registerNewItem(new ServerSelectorItem(this));

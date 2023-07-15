@@ -1,7 +1,9 @@
 database:
   mongodb:
-    uri: 'mongodb://0.0.0.0:27017'
+    uri: 'mongodb://127.0.0.1:27017'
     database: 'dev'
+  redis:
+    uri: 'redis://127.0.0.1:6379'
 
 motd:
   - '&f&m--------------------------------'
