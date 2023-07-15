@@ -8,6 +8,7 @@ import gg.hcfactions.libs.base.connect.impl.mongo.Mongo;
 import gg.hcfactions.libs.base.connect.impl.redis.Redis;
 import gg.hcfactions.libs.bukkit.AresPlugin;
 import gg.hcfactions.libs.bukkit.services.impl.account.AccountService;
+import gg.hcfactions.libs.bukkit.services.impl.alts.AltService;
 import gg.hcfactions.libs.bukkit.services.impl.deathbans.DeathbanConfig;
 import gg.hcfactions.libs.bukkit.services.impl.deathbans.DeathbanService;
 import gg.hcfactions.libs.bukkit.services.impl.items.CustomItemService;
@@ -25,6 +26,7 @@ import net.hcfrevival.lobby.item.LeaveQueueItem;
 import net.hcfrevival.lobby.item.ServerSelectorItem;
 import net.hcfrevival.lobby.listener.BlockListener;
 import net.hcfrevival.lobby.listener.PlayerListener;
+import net.hcfrevival.lobby.listener.PremiumListener;
 import net.hcfrevival.lobby.queue.QueueManager;
 
 import java.util.List;
@@ -85,6 +87,7 @@ public final class LobbyPlugin extends AresPlugin {
         registerService(new SyncService(this, configuration.getMongoDatabaseName()));
         registerService(new PunishmentService(this, configuration.getMongoDatabaseName()));
         registerService(new ReportService(this));
+        registerService(new AltService(this));
         registerService(cis);
 
         // TODO: Make configurable
@@ -112,6 +115,7 @@ public final class LobbyPlugin extends AresPlugin {
         // listeners
         registerListener(new PlayerListener(this));
         registerListener(new BlockListener());
+        registerListener(new PremiumListener(this));
 
         // lobby internals
         queueManager = new QueueManager(this);

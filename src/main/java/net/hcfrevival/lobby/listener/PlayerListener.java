@@ -138,6 +138,17 @@ public record PlayerListener(@Getter LobbyPlugin plugin) implements Listener {
         player.setVelocity(velocity);
     }
 
+    @EventHandler
+    public void onVoidFalling(PlayerBigMoveEvent event) {
+        final Player player = event.getPlayer();
+        final Location to = event.getTo();
+
+        if (to.getY() <= 0) {
+            player.teleport(plugin.getConfiguration().getSpawnLocation());
+            player.setFallDistance(0);
+        }
+    }
+
     @EventHandler (priority = EventPriority.HIGHEST)
     public void onEntityDamage(EntityDamageEvent event) {
         if (!(event.getEntity() instanceof final Player player)) {
