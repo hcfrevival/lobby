@@ -39,6 +39,12 @@ public record QueueExecutor(@Getter QueueManager manager) implements IQueueExecu
             return;
         }
 
+        if (queue.getServer().isPremiumOnly() && !player.hasPermission(LobbyPermissions.ARES_LOBBY_PREMIUM)) {
+            player.sendMessage(ChatColor.RED + "This server is whitelisted for Premium Users only");
+            player.sendMessage(ChatColor.RED + "Purchase a rank at" + ChatColor.RESET + ": https://shop.hcfrevival.net");
+            return;
+        }
+
         // TODO: This requires us to have a deathban service set even if we don't need it.
         if (ds == null) {
             player.sendMessage(ChatColor.RED + "Failed to obtain deathban service");
