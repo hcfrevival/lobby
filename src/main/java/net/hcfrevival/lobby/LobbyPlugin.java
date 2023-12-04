@@ -28,12 +28,14 @@ import net.hcfrevival.lobby.item.ServerSelectorItem;
 import net.hcfrevival.lobby.listener.BlockListener;
 import net.hcfrevival.lobby.listener.PlayerListener;
 import net.hcfrevival.lobby.listener.PremiumListener;
+import net.hcfrevival.lobby.player.PlayerManager;
 import net.hcfrevival.lobby.queue.QueueManager;
 
 import java.util.List;
 
 public final class LobbyPlugin extends AresPlugin {
     @Getter public QueueManager queueManager;
+    @Getter public PlayerManager playerManager;
     @Getter public LobbyConfig configuration;
 
     @Override
@@ -121,14 +123,22 @@ public final class LobbyPlugin extends AresPlugin {
 
         // lobby internals
         queueManager = new QueueManager(this);
+        playerManager = new PlayerManager(this);
+
+        playerManager.onEnable();
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
 
+        // services
         stopServices();
 
+        // lobby internals
+        playerManager.onDisable();
+
         queueManager = null;
+        playerManager = null;
     }
 }

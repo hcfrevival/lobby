@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.Objects;
 
 public final class LobbyConfig {
     @Getter public final LobbyPlugin plugin;
@@ -18,6 +19,8 @@ public final class LobbyConfig {
     @Getter @Setter public String mongoUri;
     @Getter @Setter public String mongoDatabaseName;
     @Getter @Setter public String redisUri;
+    @Getter @Setter public String scoreboardTitle;
+    @Getter @Setter public String scoreboardFooter;
     @Getter @Setter public List<String> motd;
     @Getter @Setter public Location spawnLocation;
 
@@ -42,6 +45,9 @@ public final class LobbyConfig {
 
         motd = Lists.newArrayList();
         motdEntries.forEach(entry -> motd.add(ChatColor.translateAlternateColorCodes('&', entry)));
+
+        scoreboardTitle = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(conf.getString("scoreboard.title")));
+        scoreboardFooter = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(conf.getString("scoreboard.footer")));
 
         spawnLocation = Configs.parsePlayerLocation(conf, "spawn").getBukkitLocation();
     }

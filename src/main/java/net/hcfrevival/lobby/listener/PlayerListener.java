@@ -13,6 +13,8 @@ import lombok.Getter;
 import net.hcfrevival.lobby.LobbyPermissions;
 import net.hcfrevival.lobby.LobbyPlugin;
 import net.hcfrevival.lobby.item.ServerSelectorItem;
+import net.hcfrevival.lobby.player.model.LobbyPlayer;
+import net.hcfrevival.lobby.util.ScoreboardUtil;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -27,6 +29,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.util.Vector;
 
 public record PlayerListener(@Getter LobbyPlugin plugin) implements Listener {
@@ -41,12 +44,7 @@ public record PlayerListener(@Getter LobbyPlugin plugin) implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
-        final CustomItemService cis = (CustomItemService) plugin.getService(CustomItemService.class);
-
-        if (cis == null) {
-            plugin.getAresLogger().error("failed to obtain custom item service");
-            return;
-        }
+        final LobbyPlayer lobbyPlayer = new LobbyPlayer(plugin, player);
 
         Players.resetHealth(player);
         Players.resetFlySpeed(player);
@@ -57,7 +55,14 @@ public record PlayerListener(@Getter LobbyPlugin plugin) implements Listener {
         player.setGameMode(GameMode.SURVIVAL);
         player.teleport(plugin.getConfiguration().getSpawnLocation());
 
-        cis.getItem(ServerSelectorItem.class).ifPresent(item -> player.getInventory().setItem(4, item.getItem()));
+        plugin.getPlayerManager().getPlayerRepository().add(lobbyPlayer);
+        plugin.getPlayerManager().getPlayerRepository().forEach(p -> p.addToScoreboard(player));
+        new Scheduler(plugin).sync(() -> ScoreboardUtil.sendLobbyScoreboard(plugin, player)).delay(5L).run();
+
+        final CustomItemService cis = (CustomItemService) plugin.getService(CustomItemService.class);
+        if (cis != null) {
+            cis.getItem(ServerSelectorItem.class).ifPresent(item -> player.getInventory().setItem(4, item.getItem()));
+        }
 
         final CXService cxService = (CXService) plugin.getService(CXService.class);
         final RankService rankService = (RankService) plugin.getService(RankService.class);
@@ -80,6 +85,13 @@ public record PlayerListener(@Getter LobbyPlugin plugin) implements Listener {
                         Joiner.on("\n").join(plugin.getConfiguration().getMotd()).replaceAll("%player%", player.getName())))
                 .delay(1L)
                 .run();
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        final Player player = event.getPlayer();
+        plugin.getPlayerManager().getPlayerRepository().removeIf(p -> p.getUniqueId().equals(player.getUniqueId()));
+        plugin.getPlayerManager().getPlayerRepository().forEach(p -> p.removeFromScoreboard(player));
     }
 
     @EventHandler (priority = EventPriority.LOWEST)

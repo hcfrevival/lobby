@@ -14,6 +14,10 @@ motd:
   - '&6Shop&f: https://shop.hcfrevival.net/'
   - '&f&m--------------------------------'
 
+scoreboard:
+  title: '&6&lRevival Network'
+  footer: '&c&lplay.hcfrevival.net'
+
 spawn:
   x: 0.0
   y: 64.0
