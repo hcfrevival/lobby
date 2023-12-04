@@ -2,6 +2,7 @@ package net.hcfrevival.lobby;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import gg.hcfactions.cx.CXService;
 import gg.hcfactions.libs.acf.PaperCommandManager;
 import gg.hcfactions.libs.base.connect.impl.mongo.Mongo;
@@ -100,7 +101,8 @@ public final class LobbyPlugin extends AresPlugin {
                 0,
                 0,
                 30,
-                "https://shop.hcfrevival.net"
+                "https://shop.hcfrevival.net",
+                Maps.newHashMap()
         )));
 
         startServices();
