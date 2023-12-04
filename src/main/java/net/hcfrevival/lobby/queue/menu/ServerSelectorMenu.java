@@ -58,6 +58,11 @@ public final class ServerSelectorMenu extends GenericMenu {
                 }
 
                 lore.add(ChatColor.RESET + " ");
+
+                if (server.isPremiumOnly()) {
+                    lore.add(ChatColor.AQUA + "Premium Only");
+                }
+
                 lore.add(ChatColor.GOLD + "Status" + ChatColor.YELLOW + ": " + serverStatus);
                 lore.add(ChatColor.GOLD + "Online" + ChatColor.YELLOW + ": " + (server.getStatus().equals(EServerStatus.ONLINE) ? server.getOnlineUsernames().size() : 0));
 
