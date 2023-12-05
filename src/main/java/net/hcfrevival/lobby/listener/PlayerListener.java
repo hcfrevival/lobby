@@ -155,7 +155,7 @@ public record PlayerListener(@Getter LobbyPlugin plugin) implements Listener {
         final Player player = event.getPlayer();
         final Location to = event.getTo();
 
-        if (to.getY() <= 0) {
+        if (to.getY() <= 0 || to.getY() > 300) {
             player.teleport(plugin.getConfiguration().getSpawnLocation());
             player.setFallDistance(0);
         }
