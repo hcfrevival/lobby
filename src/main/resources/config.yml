@@ -25,3 +25,6 @@ spawn:
   yaw: 0.0
   pitch: 0.0
   world: 'world'
+
+weather:
+  always-storming: false

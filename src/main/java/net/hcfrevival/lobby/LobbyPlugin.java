@@ -28,8 +28,10 @@ import net.hcfrevival.lobby.item.ServerSelectorItem;
 import net.hcfrevival.lobby.listener.BlockListener;
 import net.hcfrevival.lobby.listener.PlayerListener;
 import net.hcfrevival.lobby.listener.PremiumListener;
+import net.hcfrevival.lobby.listener.WorldListener;
 import net.hcfrevival.lobby.player.PlayerManager;
 import net.hcfrevival.lobby.queue.QueueManager;
+import org.bukkit.Bukkit;
 
 import java.util.List;
 
@@ -44,6 +46,13 @@ public final class LobbyPlugin extends AresPlugin {
 
         configuration = new LobbyConfig(this);
         configuration.load();
+
+        if (configuration.isAlwaysStorming()) {
+            Bukkit.getWorlds().forEach(world -> {
+                world.setStorm(true);
+                world.setWeatherDuration(1000*3600);
+            });
+        }
 
         // db init
         final Mongo mdb = new Mongo(configuration.getMongoUri(), getAresLogger());
@@ -120,6 +129,7 @@ public final class LobbyPlugin extends AresPlugin {
         registerListener(new PlayerListener(this));
         registerListener(new BlockListener());
         registerListener(new PremiumListener(this));
+        registerListener(new WorldListener(this));
 
         // lobby internals
         queueManager = new QueueManager(this);

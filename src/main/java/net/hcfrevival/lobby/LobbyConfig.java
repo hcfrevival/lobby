@@ -23,6 +23,7 @@ public final class LobbyConfig {
     @Getter @Setter public String scoreboardFooter;
     @Getter @Setter public List<String> motd;
     @Getter @Setter public Location spawnLocation;
+    @Getter @Setter public boolean alwaysStorming;
 
     public LobbyConfig(LobbyPlugin plugin) {
         this.plugin = plugin;
@@ -50,5 +51,6 @@ public final class LobbyConfig {
         scoreboardFooter = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(conf.getString("scoreboard.footer")));
 
         spawnLocation = Configs.parsePlayerLocation(conf, "spawn").getBukkitLocation();
+        alwaysStorming = conf.getBoolean("weather.always-storming");
     }
 }
