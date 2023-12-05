@@ -29,25 +29,32 @@ public final class ScoreboardUtil {
 
             if (rankService != null) {
                 final AresRank highestRank = rankService.getHighestRank(player);
-                lobbyPlayer.getScoreboard().setLine(10, ChatColor.GOLD + "Rank" + ChatColor.YELLOW + ":");
-                lobbyPlayer.getScoreboard().setLine(9, (highestRank != null)
+                lobbyPlayer.getScoreboard().setLine(11, ChatColor.GOLD + "Rank" + ChatColor.YELLOW + ":");
+                lobbyPlayer.getScoreboard().setLine(10, (highestRank != null)
                         ? net.md_5.bungee.api.ChatColor.of(highestRank.getColorCode()) + highestRank.getDisplayName()
                         : ChatColor.RESET + "Default");
-                lobbyPlayer.getScoreboard().setLine(8, ChatColor.RESET + " ");
             }
 
             if (syncService != null) {
+                if (rankService != null) {
+                    lobbyPlayer.getScoreboard().setLine(9, ChatColor.RESET + " ");
+                }
+
                 int totalOnline = syncService.getThisServer().getOnlineUsernames().size();
 
                 for (SyncServer server : syncService.getServerRepository()) {
                     totalOnline += server.getOnlineUsernames().size();
                 }
 
-                lobbyPlayer.getScoreboard().setLine(7, ChatColor.GOLD + "Online" + ChatColor.YELLOW + ":");
-                lobbyPlayer.getScoreboard().setLine(6, totalOnline + "");
+                lobbyPlayer.getScoreboard().setLine(8, ChatColor.GOLD + "Online" + ChatColor.YELLOW + ":");
+                lobbyPlayer.getScoreboard().setLine(7, totalOnline + "");
             }
 
             if (queueData != null) {
+                if (syncService != null) {
+                    lobbyPlayer.getScoreboard().setLine(6, ChatColor.RESET + " ");
+                }
+
                 final String serverName = queueData.getServer().getType().getDisplayName();
                 final int pos = queueData.getPosition(player.getUniqueId());
                 final int queueSize = queueData.getQueue().size();
