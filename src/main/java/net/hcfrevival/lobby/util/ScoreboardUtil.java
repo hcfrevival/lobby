@@ -8,6 +8,7 @@ import gg.hcfactions.libs.bukkit.services.impl.sync.impl.SyncServer;
 import joptsimple.internal.Strings;
 import net.hcfrevival.lobby.LobbyPlugin;
 import net.hcfrevival.lobby.queue.model.impl.ServerQueue;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -31,7 +32,7 @@ public final class ScoreboardUtil {
                 final AresRank highestRank = rankService.getHighestRank(player);
                 lobbyPlayer.getScoreboard().setLine(11, ChatColor.GOLD + "Rank" + ChatColor.YELLOW + ":");
                 lobbyPlayer.getScoreboard().setLine(10, (highestRank != null)
-                        ? net.md_5.bungee.api.ChatColor.of(highestRank.getColorCode()) + highestRank.getDisplayName()
+                        ? net.md_5.bungee.api.ChatColor.of(highestRank.getColorCode()) + StringUtils.capitalize(highestRank.getName().replaceAll("-", " "))
                         : ChatColor.RESET + "Default");
             }
 
