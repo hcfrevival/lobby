@@ -4,7 +4,8 @@ import gg.hcfactions.libs.bukkit.builder.impl.ItemBuilder;
 import lombok.Getter;
 import net.hcfrevival.lobby.LobbyPermissions;
 import net.hcfrevival.lobby.LobbyPlugin;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -24,13 +25,13 @@ public record PremiumListener(@Getter LobbyPlugin plugin) implements Listener {
 
         final ItemStack elytra = new ItemBuilder()
                 .setMaterial(Material.ELYTRA)
-                .setName(ChatColor.GOLD + "Thank you for your support!")
-                .addEnchant(Enchantment.DURABILITY, 3)
+                .setName(Component.text("Thank you for your support!", NamedTextColor.GOLD))
+                .addEnchant(Enchantment.UNBREAKING, 3)
                 .build();
 
         final ItemStack fireworks = new ItemBuilder()
                 .setMaterial(Material.FIREWORK_ROCKET)
-                .setName(ChatColor.GOLD + "Thank you for your support!")
+                .setName(Component.text("Thank you for your support!", NamedTextColor.GOLD))
                 .setAmount(64)
                 .build();
 

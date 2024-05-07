@@ -65,7 +65,7 @@ public final class LobbyPlayer {
 
         rankService.getRankRepository().forEach(rank -> {
             final Team team = internal.registerNewTeam(rank.getName());
-            team.setPrefix(rank.getPrefix());
+            team.prefix(rank.getPrefixComponent());
         });
 
         Bukkit.getOnlinePlayers().forEach(onlinePlayer -> {

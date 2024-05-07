@@ -1,6 +1,5 @@
 package net.hcfrevival.lobby;
 
-import com.comphenix.protocol.ProtocolLibrary;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import gg.hcfactions.cx.CXService;
@@ -32,13 +31,17 @@ import net.hcfrevival.lobby.listener.WorldListener;
 import net.hcfrevival.lobby.player.PlayerManager;
 import net.hcfrevival.lobby.queue.QueueManager;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 
 import java.util.List;
 
+@Getter
 public final class LobbyPlugin extends AresPlugin {
-    @Getter public QueueManager queueManager;
-    @Getter public PlayerManager playerManager;
-    @Getter public LobbyConfig configuration;
+    public final NamespacedKey namespacedKey = new NamespacedKey(this, "lobby");
+
+    public QueueManager queueManager;
+    public PlayerManager playerManager;
+    public LobbyConfig configuration;
 
     @Override
     public void onEnable() {
@@ -72,7 +75,7 @@ public final class LobbyPlugin extends AresPlugin {
         registerCommand(new DebugCommand(this));
 
         // protocollib
-        registerProtocolLibrary(ProtocolLibrary.getProtocolManager());
+        // registerProtocolLibrary(ProtocolLibrary.getProtocolManager());
 
         // gson
         registerGsonTypeAdapter(ReportPayload.class, new ReportPayloadTypeAdapter());
@@ -90,7 +93,7 @@ public final class LobbyPlugin extends AresPlugin {
             return res;
         });
 
-        final CustomItemService cis = new CustomItemService(this);
+        final CustomItemService cis = new CustomItemService(this, namespacedKey);
 
         // services
         registerService(new CXService(this));

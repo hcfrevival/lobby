@@ -5,6 +5,7 @@ import gg.hcfactions.libs.bukkit.location.impl.PLocatable;
 import gg.hcfactions.libs.bukkit.utils.Configs;
 import lombok.Getter;
 import lombok.Setter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -19,9 +20,9 @@ public final class LobbyConfig {
     @Getter @Setter public String mongoUri;
     @Getter @Setter public String mongoDatabaseName;
     @Getter @Setter public String redisUri;
-    @Getter @Setter public String scoreboardTitle;
+    @Getter @Setter public Component scoreboardTitle;
     @Getter @Setter public String scoreboardFooter;
-    @Getter @Setter public List<String> motd;
+    @Getter @Setter public Component motd;
     @Getter @Setter public Location spawnLocation;
     @Getter @Setter public boolean alwaysStorming;
 
@@ -44,10 +45,13 @@ public final class LobbyConfig {
 
         redisUri = conf.getString("database.redis.uri");
 
-        motd = Lists.newArrayList();
-        motdEntries.forEach(entry -> motd.add(ChatColor.translateAlternateColorCodes('&', entry)));
+        motd = Component.empty();
+        for (String entry : motdEntries) {
+            final Component formatted = plugin.getMiniMessage().deserialize(entry);
+            motd = motd.appendNewline().append(formatted);
+        }
 
-        scoreboardTitle = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(conf.getString("scoreboard.title")));
+        scoreboardTitle = plugin.getMiniMessage().deserialize(Objects.requireNonNull(conf.getString("scoreboard.title")));
         scoreboardFooter = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(conf.getString("scoreboard.footer")));
 
         spawnLocation = Configs.parsePlayerLocation(conf, "spawn").getBukkitLocation();

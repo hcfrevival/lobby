@@ -1,13 +1,13 @@
 package net.hcfrevival.lobby.item;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import gg.hcfactions.libs.bukkit.services.impl.items.ICustomItem;
 import lombok.Getter;
 import net.hcfrevival.lobby.LobbyPlugin;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -20,21 +20,21 @@ public record ServerSelectorItem(@Getter LobbyPlugin plugin) implements ICustomI
     }
 
     @Override
-    public String getName() {
-        return ChatColor.DARK_AQUA + "Server Selector";
+    public Map.Entry<NamespacedKey, String> getIdentifier() {
+        return Map.entry(plugin.getNamespacedKey(), "ServerSelector");
     }
 
     @Override
-    public List<String> getLore() {
-        final List<String> res = Lists.newArrayList();
-        res.add(ChatColor.GRAY + "Right-click this item while holding it");
-        res.add(ChatColor.GRAY + "to open the server selector menu.");
+    public Component getDisplayNameComponent() {
+        return Component.text("Server Selector", NamedTextColor.BLUE);
+    }
+
+    @Override
+    public List<Component> getLoreComponents() {
+        final List<Component> res = Lists.newArrayList();
+        res.add(Component.keybind("key.use").color(NamedTextColor.AQUA).appendSpace().append(Component.text("this item while holding it", NamedTextColor.GRAY)));
+        res.add(Component.text("to open the server selection menu.", NamedTextColor.GRAY));
         return res;
-    }
-
-    @Override
-    public Map<Enchantment, Integer> getEnchantments() {
-        return Maps.newHashMap();
     }
 
     @Override
