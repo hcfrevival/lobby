@@ -1,5 +1,6 @@
 package net.hcfrevival.lobby;
 
+import com.comphenix.protocol.ProtocolLibrary;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import gg.hcfactions.cx.CXService;
@@ -75,7 +76,7 @@ public final class LobbyPlugin extends AresPlugin {
         registerCommand(new DebugCommand(this));
 
         // protocollib
-        // registerProtocolLibrary(ProtocolLibrary.getProtocolManager());
+        registerProtocolLibrary(ProtocolLibrary.getProtocolManager());
 
         // gson
         registerGsonTypeAdapter(ReportPayload.class, new ReportPayloadTypeAdapter());
