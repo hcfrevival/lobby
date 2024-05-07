@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.hcfrevival.lobby.LobbyPermissions;
 import net.hcfrevival.lobby.LobbyPlugin;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -18,7 +20,7 @@ public final class SpawnCommand extends BaseCommand {
     @Description("Return to spawn")
     public void onSpawn(Player player) {
         player.teleport(plugin.getConfiguration().getSpawnLocation());
-        player.sendMessage(ChatColor.YELLOW + "Returned to Spawn");
+        player.sendMessage(Component.text("Returned to Spawn", NamedTextColor.YELLOW));
     }
 
     @Subcommand("set")
@@ -27,6 +29,6 @@ public final class SpawnCommand extends BaseCommand {
     public void onSetSpawn(Player player) {
         plugin.getConfiguration().saveSpawnLocation(player);
         plugin.getConfiguration().setSpawnLocation(player.getLocation());
-        player.sendMessage(ChatColor.YELLOW + "Spawn has been updated");
+        player.sendMessage(Component.text("Spawn has been updated", NamedTextColor.GREEN));
     }
 }

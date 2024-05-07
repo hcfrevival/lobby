@@ -1,6 +1,5 @@
 package net.hcfrevival.lobby.listener;
 
-import com.google.common.base.Joiner;
 import gg.hcfactions.cx.CXService;
 import gg.hcfactions.libs.bukkit.events.impl.PlayerBigMoveEvent;
 import gg.hcfactions.libs.bukkit.events.impl.PlayerDamagePlayerEvent;
@@ -15,6 +14,8 @@ import net.hcfrevival.lobby.LobbyPlugin;
 import net.hcfrevival.lobby.item.ServerSelectorItem;
 import net.hcfrevival.lobby.player.model.LobbyPlayer;
 import net.hcfrevival.lobby.util.ScoreboardUtil;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -81,10 +82,8 @@ public record PlayerListener(@Getter LobbyPlugin plugin) implements Listener {
         }
 
         new Scheduler(plugin).sync(() ->
-                player.sendMessage(
-                        Joiner.on("\n").join(plugin.getConfiguration().getMotd()).replaceAll("%player%", player.getName())))
-                .delay(1L)
-                .run();
+                player.sendMessage(plugin.getConfiguration().getMotd())
+        ).delay(1L).run();
     }
 
     @EventHandler
@@ -105,11 +104,11 @@ public record PlayerListener(@Getter LobbyPlugin plugin) implements Listener {
             return;
         }
 
-        // Players.spawnParticle(damager, damaged.getLocation().add(0, 1.0, 0), Particle.BUBBLE_POP, 16);
+        damaged.getLocation().getWorld().spawnParticle(Particle.BUBBLE, damaged.getLocation().getX(), damaged.getLocation().getY() + 1.5, damaged.getLocation().getZ(), 8, 0.5, 0.5, 0.5, 1);
         Players.playSound(damager, Sound.ENTITY_ITEM_PICKUP);
 
         damager.hidePlayer(plugin, damaged);
-        damager.sendMessage(ChatColor.AQUA + "Pop!");
+        damager.sendMessage(Component.text("Pop!", NamedTextColor.AQUA));
     }
 
     @EventHandler
@@ -194,6 +193,10 @@ public record PlayerListener(@Getter LobbyPlugin plugin) implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         checkPermissions(event.getPlayer(), event);
+
+        if (event.isCancelled()) {
+            event.setBuild(false);
+        }
     }
 
     @EventHandler

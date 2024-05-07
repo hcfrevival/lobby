@@ -1,14 +1,13 @@
 package net.hcfrevival.lobby.item;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import gg.hcfactions.libs.bukkit.services.impl.items.ICustomItem;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.hcfrevival.lobby.LobbyPlugin;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -21,21 +20,21 @@ public record LeaveQueueItem(@Getter LobbyPlugin plugin) implements ICustomItem 
     }
 
     @Override
-    public String getName() {
-        return ChatColor.RED + "Leave Queue";
+    public Map.Entry<NamespacedKey, String> getIdentifier() {
+        return Map.entry(plugin.getNamespacedKey(), "LeaveQueue");
     }
 
     @Override
-    public List<String> getLore() {
-        final List<String> res = Lists.newArrayList();
-        res.add(ChatColor.GRAY + "Right-click while holding this item to");
-        res.add(ChatColor.GRAY + "leave your current queue.");
+    public Component getDisplayNameComponent() {
+        return Component.text("Leave Queue", NamedTextColor.RED);
+    }
+
+    @Override
+    public List<Component> getLoreComponents() {
+        final List<Component> res = Lists.newArrayList();
+        res.add(Component.keybind("key.use").color(NamedTextColor.AQUA).appendSpace().append(Component.text("while holding this item to", NamedTextColor.GRAY)));
+        res.add(Component.text("leave your current queue.", NamedTextColor.GRAY));
         return res;
-    }
-
-    @Override
-    public Map<Enchantment, Integer> getEnchantments() {
-        return Maps.newHashMap();
     }
 
     @Override

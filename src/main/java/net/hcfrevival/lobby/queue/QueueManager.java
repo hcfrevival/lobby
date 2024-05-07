@@ -52,7 +52,7 @@ public final class QueueManager {
     public ImmutableMap<SyncServer, ServerQueue> getQueueSnapshot() {
         final SyncService syncService = (SyncService) plugin.getService(SyncService.class);
         if (syncService == null) {
-            plugin.getAresLogger().error("attempted to grab a snapshot of the queue but the sync service was null");
+            plugin.getAresLogger().error("Attempted to grab a snapshot of the queue but the sync service was null");
             return ImmutableMap.of();
         }
 

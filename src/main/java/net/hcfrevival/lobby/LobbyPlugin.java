@@ -32,13 +32,17 @@ import net.hcfrevival.lobby.listener.WorldListener;
 import net.hcfrevival.lobby.player.PlayerManager;
 import net.hcfrevival.lobby.queue.QueueManager;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 
 import java.util.List;
 
+@Getter
 public final class LobbyPlugin extends AresPlugin {
-    @Getter public QueueManager queueManager;
-    @Getter public PlayerManager playerManager;
-    @Getter public LobbyConfig configuration;
+    public final NamespacedKey namespacedKey = new NamespacedKey(this, "lobby");
+
+    public QueueManager queueManager;
+    public PlayerManager playerManager;
+    public LobbyConfig configuration;
 
     @Override
     public void onEnable() {
@@ -90,7 +94,7 @@ public final class LobbyPlugin extends AresPlugin {
             return res;
         });
 
-        final CustomItemService cis = new CustomItemService(this);
+        final CustomItemService cis = new CustomItemService(this, namespacedKey);
 
         // services
         registerService(new CXService(this));
