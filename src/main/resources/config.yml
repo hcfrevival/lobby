@@ -15,8 +15,8 @@ motd:
   - '&f&m--------------------------------'
 
 scoreboard:
-  title: '&6&lRevival Network'
-  footer: '&c&lplay.hcfrevival.net'
+  title: '<gold>Revival Network'
+  footer: '&eplay.hcfrevival.net'
 
 spawn:
   x: 0.0
