@@ -1,7 +1,7 @@
 name: Lobby
 main: net.hcfrevival.lobby.LobbyPlugin
-version: 1.0.0
-author: John Rockwell <john@hcfactions.gg>
+version: 1.20.5
+author: John Rockwell <admin@hcfrevival.net>
 prefix: Lobby
-api-version: 1.19
-depends: [ProtocolLib]
+api-version: 1.20.5
+depends: [PacketEvents]
